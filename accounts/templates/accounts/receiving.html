@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Receiving Module</title>
+
+  <link rel="stylesheet" href="{% static 'accounts/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="brand">
+      <i class="fa-solid fa-truck-ramp-box"></i>
+      <span>Receiving</span>
+    </div>
+
+    <nav class="menu">
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a class="active" href="{% url 'receiving' %}">Receiving</a>
+      <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <header class="topbar">
+      <h2>Goods Receiving Module</h2>
+    </header>
+
+    <!-- FORM -->
+    <section class="panel">
+
+      <h3 >Add Incoming Goods</h3>
+
+      {% if messages %}
+        {% for message in messages %}
+          <p class="msg">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <label>Product Name</label>
+        {{ form.product_name }}
+
+        <label>SKU</label>
+        {{ form.sku }}
+
+        <label>Quantity</label>
+        {{ form.quantity }}
+
+        <label>Supplier</label>
+        {{ form.supplier }}
+
+        <button type="submit">Receive Goods</button>
+      </form>
+
+    </section>
+
+    <!-- TABLE -->
+    <section class="panel">
+
+      <h3>Receiving History</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>SKU</th>
+            <th>Quantity</th>
+            <th>Supplier</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          {% for r in records %}
+          <tr>
+            <td>{{ r.product_name }}</td>
+            <td>{{ r.sku }}</td>
+            <td>{{ r.quantity }}</td>
+            <td>{{ r.supplier }}</td>
+            <td>{{ r.received_date }}</td>
+          </tr>
+          {% endfor %}
+
+        </tbody>
+      </table>
+
+    </section>
+
+  </main>
+
+</div>
+
+</body>
+</html>
